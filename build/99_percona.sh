@@ -18,18 +18,18 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     done
 
     echo 'Setting root password'
-    /usr/bin/mysqladmin -u root password '${PERCONA_ADMIN_PASSWORD}'
+    /usr/bin/mysqladmin -u root password 'secret'
 
-    mysql -u root --password=${PERCONA_ADMIN_PASSWORD} -e "UPDATE mysql.user SET Password=PASSWORD('${PERCONA_ADMIN_PASSWORD}') WHERE User='root'"
-    mysql -u root --password=${PERCONA_ADMIN_PASSWORD} -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
-    mysql -u root --password=${PERCONA_ADMIN_PASSWORD} -e "DELETE FROM mysql.user WHERE User=''"
-    mysql -u root --password=${PERCONA_ADMIN_PASSWORD} -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-    mysql -u root --password=${PERCONA_ADMIN_PASSWORD} -e "FLUSH PRIVILEGES"
+    mysql -u root --password=secret -e "UPDATE mysql.user SET Password=PASSWORD('secret') WHERE User='root'"
+    mysql -u root --password=secret -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
+    mysql -u root --password=secret -e "DELETE FROM mysql.user WHERE User=''"
+    mysql -u root --password=secret -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
+    mysql -u root --password=secret -e "FLUSH PRIVILEGES"
 
-    echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY '${PERCONA_ADMIN_PASSWORD}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --password=${PERCONA_ADMIN_PASSWORD}
+    echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -u root --password=secret
 
     echo 'Shutting down mysqld'
-    mysqladmin -u root --password=${PERCONA_ADMIN_PASSWORD} shutdown
+    mysqladmin -u root --password=secret shutdown
     sleep 10
 fi
 
