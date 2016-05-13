@@ -1,8 +1,13 @@
 # Use phusion/baseimage as base image.
-FROM phusion/baseimage:0.9.17
+FROM phusion/baseimage:0.9.18
+
+MAINTAINER Masood Ahmed masood.ahmed09@gmail.com
 
 # Set correct environment variables.
 ENV HOME /root
+
+# Set noninteractive mode for apt-get
+ENV DEBIAN_FRONTEND noninteractive
 
 # Regenerate SSH host keys. baseimage-docker does not contain any, so we
 # have to do that yourself.
@@ -30,7 +35,7 @@ RUN echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/00percona.pref
 RUN apt-get update
 RUN apt-get -y --force-yes upgrade
 
-# Install Percona (5.6.25-73.1-1)
+# Install Percona (5.6.29-76.2-1)
 RUN apt-get install -y --force-yes percona-server-server
 
 # Remove the database dir
